@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 #[ApiResource]
@@ -16,9 +17,11 @@ class Article
     private ?int $id;
 
     #[ORM\Column(type: 'string', length: 128)]
+    #[NotBlank]
     private ?string $title = null;
 
     #[ORM\Column(type: 'text')]
+    #[NotBlank]
     private ?string $content = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
