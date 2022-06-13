@@ -16,13 +16,13 @@ class Article
     private ?int $id;
 
     #[ORM\Column(type: 'string', length: 128)]
-    private ?string $title;
+    private ?string $title = null;
 
     #[ORM\Column(type: 'text')]
-    private ?string $content;
+    private ?string $content = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private ?\DateTimeInterface $publicationDate;
+    private ?\DateTimeInterface $publicationDate = null;
 
     public function getId(): ?int
     {
