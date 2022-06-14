@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\ArticleRepository;
+use App\Validator\PublicationDate;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
@@ -16,6 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => [self::ARTICLE_READ]],
     denormalizationContext: ['groups' => [self::ARTICLE_WRITE]]
 )]
+#[PublicationDate]
 class Article
 {
     private const ARTICLE_READ = 'article:read';
