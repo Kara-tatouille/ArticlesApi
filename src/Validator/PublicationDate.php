@@ -4,12 +4,13 @@ namespace App\Validator;
 
 use Symfony\Component\Validator\Constraint;
 
-/**
- * @Annotation
- * @Target({"CLASS"})
- */
-#[\Attribute(\Attribute::TARGET_CLASS | \Attribute::IS_REPEATABLE)]
+#[\Attribute]
 class PublicationDate extends Constraint
 {
-    public $draftShouldntHavePublicationDateMessage = 'The value "{{ value }}" is not valid.';
+    public function getTargets()
+    {
+        return self::CLASS_CONSTRAINT;
+    }
+
+    public $draftShouldntHavePublicationDateMessage = 'A draft Article should not have a publication date';
 }

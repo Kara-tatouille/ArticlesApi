@@ -23,6 +23,7 @@ class PublicationDateValidator extends ConstraintValidator
         ) {
             $this->context
                 ->buildViolation($constraint->draftShouldntHavePublicationDateMessage)
+                ->setInvalidValue($value->getPublicationDate())
                 ->addViolation()
             ;
         }

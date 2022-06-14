@@ -17,11 +17,15 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => [self::ARTICLE_READ]],
     denormalizationContext: ['groups' => [self::ARTICLE_WRITE]]
 )]
+#[ApiFilter(SearchFilter::class, properties: [
+    'status.name' => 'exact',
+    'title' => 'partial',
+])]
 #[PublicationDate]
 class Article
 {
-    private const ARTICLE_READ = 'article:read';
-    private const ARTICLE_WRITE = 'article:write';
+    public const ARTICLE_READ = 'article:read';
+    public const ARTICLE_WRITE = 'article:write';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -43,13 +47,15 @@ class Article
     #[Groups([self::ARTICLE_READ, self::ARTICLE_WRITE])]
     private ?\DateTimeInterface $publicationDate = null;
 
-    /**
-     * TODO : add a way to set the status by keyword
-     */
     #[ORM\ManyToOne(targetEntity: Status::class, cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
-    #[ApiFilter(SearchFilter::class, properties: ['status.name'])]
+    #[Groups([self::ARTICLE_WRITE])]
     private ?Status $status = null;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'articles')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups([self::ARTICLE_READ, self::ARTICLE_WRITE])]
+    private ?User $author = null;
 
     public function getId(): ?int
     {
@@ -109,5 +115,17 @@ class Article
     public function getStatusName(): ?string
     {
         return $this->status?->getName();
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(User $author): self
+    {
+        $this->author = $author;
+
+        return $this;
     }
 }
