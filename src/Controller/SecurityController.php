@@ -39,7 +39,7 @@ class SecurityController extends AbstractController
     }
 
     #[Route(path: '/api/logout', name: 'app_logout')]
-    public function logout(): void
+    public function logout(): never
     {
         throw new \LogicException('Route handled by the Security service');
     }
