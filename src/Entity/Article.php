@@ -6,7 +6,6 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\ArticleRepository;
-use App\Validator\PublicationDate;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
@@ -21,7 +20,6 @@ use Symfony\Component\Validator\Constraints as Assert;
     'status.name' => 'exact',
     'title' => 'partial',
 ])]
-#[PublicationDate]
 class Article
 {
     public const ARTICLE_READ = 'article:read';
