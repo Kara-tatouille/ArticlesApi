@@ -14,18 +14,19 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            stateless: true
             lazy: true
             provider: app_user_provider
-
+            entry_point: jwt
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
-            form_login:
-                check_path: app_login
-                login_path: app_login
             json_login:
-                check_path: app_api_login
+                check_path: /authentication_token
                 username_path: email
                 password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            jwt: ~
             logout:
                 path: app_logout
 
@@ -36,8 +37,10 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/api$, roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI
+        - { path: ^/api/index, roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI
+        - { path: ^/authentication_token, roles: PUBLIC_ACCESS }
+        - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:

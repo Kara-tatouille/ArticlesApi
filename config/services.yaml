@@ -19,11 +19,16 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+    # Makes changes to articles when they are flushed
     App\EventListener\ArticleEventListener:
         tags:
             -
                 name: 'doctrine.event_listener'
                 event: 'onFlush'
+    # Manages the authentification endpoint
+    App\OpenApi\JwtDecorator:
+        decorates: 'api_platform.openapi.factory'
+        arguments: ['@.inner']
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
